@@ -1,0 +1,27 @@
+{
+  "name": "oss-bot-js",
+  "version": "0.2.5",
+  "description": "Bot for managing first pass PR reviews on OSS GitHub repos",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "2.4.1",
+    "body-parser": "^1.15.2",
+    "express": "4.13.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
