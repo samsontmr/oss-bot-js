@@ -35,7 +35,11 @@ function extractRelevantDetails(received_json) {
 }
 
 function validatePullRequest(prDetails) {
+    return validatePullRequestTitle(prDetails.title);
+}
+
+function validatePullRequestTitle(prTitle) {
     titleTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
     console.log("Regex for title: " + process.env.REGEX_PULL_REQ_BODY)
-    return titleTest.test(prDetails.title);
+    return titleTest.test(prTitle);
 }
