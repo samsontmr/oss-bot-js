@@ -19,14 +19,22 @@ app.post('/pull_req', receive_pull_request);
 function receive_pull_request(request, response) {
     console.log("Received pull request: \n" + request.body);
     response.send();
-    parsePullRequestJson(request);
+    extractedPrDetails = extractRelevantDetails(request);
+    if (validatePullRequest(extractedPrDetails)) {
+        console.log("Check passed!");
+    }
 }
 
-
-function parsePullRequestJson(received_json) {
-    title = received_json.body.pull_request.title
-    body = received_json.body.pull_request.body
-    username = received_json.body.pull_request.user.login
+function extractRelevantDetails(received_json) {
+    title = received_json.body.pull_request.title;
+    body = received_json.body.pull_request.body;
+    username = received_json.body.pull_request.user.login;
     console.log('Received PR "' + title + '" from: ' + username +
-                '\n Description: "' + body + '"')
+                '\n Description: "' + body + '"');
+    return {title : title, body : body, username : username};
+}
+
+function validatePullRequest(prDetails) {
+    titleTest = new RegExp(app.get('REGEX_PULL_REQ_BODY'));
+    return titleTest.test(prDetails.title);
 }
