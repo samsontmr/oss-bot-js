@@ -36,5 +36,6 @@ function extractRelevantDetails(received_json) {
 
 function validatePullRequest(prDetails) {
     titleTest = new RegExp(app.get('REGEX_PULL_REQ_BODY'));
+    console.log("Regex for title: " + REGEX_PULL_REQ_BODY)
     return titleTest.test(prDetails.title);
 }
