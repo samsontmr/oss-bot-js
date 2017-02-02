@@ -13,8 +13,13 @@ app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
 });
 
-app.post('/pull_req', function(request, response) {
-    console.log("Received pull request")
-});
+app.post('/pull_req', receive_pull_request);
+
+
+function receive_pull_request(request, response) {
+    console.log("Received pull request");
+    response.send();
+}
+
 
 //function parsePullRequest
