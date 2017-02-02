@@ -17,16 +17,16 @@ app.post('/pull_req', receive_pull_request);
 
 
 function receive_pull_request(request, response) {
-    console.log("Received pull request: \n" + request);
+    console.log("Received pull request: \n" + request.body);
     response.send();
-    parsePullRequestJson(JSON.parse(request));
+    parsePullRequestJson(request);
 }
 
 
 function parsePullRequestJson(received_json) {
-    title = received_json.pull_request.title
-    body = received_json.pull_request.body
-    username = received_json.pull_request.user.login
+    title = received_json.body.pull_request.title
+    body = received_json.body.pull_request.body
+    username = received_json.body.pull_request.user.login
     console.log('Received PR "' + title + '" from: ' + username +
                 '\n Description: "' + body + '"')
 }
