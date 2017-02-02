@@ -35,11 +35,17 @@ function extractRelevantDetails(received_json) {
 }
 
 function validatePullRequest(prDetails) {
-    return validatePullRequestTitle(prDetails.title);
+    return validatePullRequestTitle(prDetails.title) && validatePullRequestBody(prDetails.body);
 }
 
 function validatePullRequestTitle(prTitle) {
-    titleTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
-    console.log("Regex for title: " + process.env.REGEX_PULL_REQ_BODY)
+    titleTest = new RegExp(process.env.REGEX_PULL_REQ_TITLE);
+    console.log("Regex for title: " + process.env.REGEX_PULL_REQ_TITLE)
     return titleTest.test(prTitle);
+}
+
+function validatePullRequestBody(prBody) {
+    titleTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
+    console.log("Regex for body: " + process.env.REGEX_PULL_REQ_BODY)
+    return titleTest.test(prBody);
 }
