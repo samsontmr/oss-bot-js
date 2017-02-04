@@ -12,11 +12,12 @@
   "dependencies": {
     "ejs": "2.4.1",
     "body-parser": "^1.15.2",
-    "express": "4.13.3"
+    "express": "4.13.3",
+    "github-api": "3.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/samsontmr/oss-bot-js"
   },
   "keywords": [
     "node",

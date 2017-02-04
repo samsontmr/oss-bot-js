@@ -27,22 +27,23 @@ function receive_pull_request(request, response) {
     response.send();
     extractedPrDetails = extractRelevantDetails(request);
     if (!validatePullRequest(extractedPrDetails)) {
-        gh.createIssueComment(extractedPrDetails.id,
-                              'Hi ' + extractedPrDetails.username +
-                              ', please follow the naming conventions for PRs.')
+        commentOnPR(extractedPrDetails.repo, extractedPrDetails.id,
+                    'Hi ' + extractedPrDetails.username +
+                    ', please follow the naming conventions for PRs.');
         console.log("Check Failed!");
 
     }
 }
 
 function extractRelevantDetails(received_json) {
+    repo = received_json.body.pull_request.base.repo.full_name;
     title = received_json.body.pull_request.title;
     body = received_json.body.pull_request.body;
     username = received_json.body.pull_request.user.login;
     id = received_json.body.pull_request.number;
     console.log('Received PR ' + id + ' "' + title + '" from: ' + username +
                 '\n Description: "' + body + '"');
-    return {id : id, title : title, body : body, username : username};
+    return {repo : repo, id : id, title : title, body : body, username : username};
 }
 
 function validatePullRequest(prDetails) {
@@ -59,4 +60,10 @@ function validatePullRequestBody(prBody) {
     bodyTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
     console.log("Regex for body: " + process.env.REGEX_PULL_REQ_BODY);
     return bodyTest.test(prBody);
+}
+
+function commentOnPR(repo, id, comment) {
+    repoNameSplit = repo.split("/");
+    issueObj = gh.getIssues(repoNameSplit[0], repoNameSplit[1]);
+    issueObj.createIssueComment(id, comment);
 }
