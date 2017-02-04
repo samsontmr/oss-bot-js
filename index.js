@@ -10,8 +10,6 @@ var gh = new GitHub({
 
 app.set('port', (process.env.PORT || 5000));
 
-//app.use(express.static(__dirname));
-
 //support parsing of application/json type post data
 app.use(bodyParser.json());
 
@@ -29,7 +27,7 @@ function receive_pull_request(request, response) {
     if (isPullRequestToCheck(extractedPrDetails) &&
         !validatePullRequest(extractedPrDetails)) {
         commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id,
-                             'Hi ' + extractedPrDetails.username +
+                             'Hi @' + extractedPrDetails.username +
                              ', please follow the naming conventions for PRs.');
         console.log('Check Failed!');
 
@@ -47,6 +45,11 @@ function extractRelevantDetails(received_json) {
                 '\n Description: "' + body + '"');
     return {repo : repo, id : id, title : title, body : body,
             username : username, action : action};
+}
+
+function isPullRequestToCheck(prDetails) {
+    return prDetails.action == 'opened' || prDetails.action == 'edited' ||
+           prDetails.action == 'reopened' || prDetails.action == 'review_requested';
 }
 
 function validatePullRequest(prDetails) {
@@ -69,9 +72,4 @@ function commentOnPullRequest(repo, id, comment) {
     repoNameSplit = repo.split('/');
     issueObj = gh.getIssues(repoNameSplit[0], repoNameSplit[1]);
     issueObj.createIssueComment(id, comment);
-}
-
-function isPullRequestToCheck(prDetails) {
-    return prDetails.action == 'opened' || prDetails.action == 'edited' ||
-           prDetails.action == 'reopened' || prDetails.action == 'review_requested';
 }
