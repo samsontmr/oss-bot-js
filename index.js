@@ -23,27 +23,30 @@ app.post('/pull_req', receive_pull_request);
 
 
 function receive_pull_request(request, response) {
-    console.log("Received pull request: \n" + request.body);
+    console.log('Received pull request: \n' + request.body);
     response.send();
     extractedPrDetails = extractRelevantDetails(request);
-    if (!validatePullRequest(extractedPrDetails)) {
-        commentOnPR(extractedPrDetails.repo, extractedPrDetails.id,
-                    'Hi ' + extractedPrDetails.username +
-                    ', please follow the naming conventions for PRs.');
-        console.log("Check Failed!");
+    if (isPullRequestToCheck(extractedPrDetails) &&
+        !validatePullRequest(extractedPrDetails)) {
+        commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id,
+                             'Hi ' + extractedPrDetails.username +
+                             ', please follow the naming conventions for PRs.');
+        console.log('Check Failed!');
 
     }
 }
 
 function extractRelevantDetails(received_json) {
     repo = received_json.body.pull_request.base.repo.full_name;
+    action = received_json.body.action;
     title = received_json.body.pull_request.title;
     body = received_json.body.pull_request.body;
     username = received_json.body.pull_request.user.login;
     id = received_json.body.pull_request.number;
     console.log('Received PR ' + id + ' "' + title + '" from: ' + username +
                 '\n Description: "' + body + '"');
-    return {repo : repo, id : id, title : title, body : body, username : username};
+    return {repo : repo, id : id, title : title, body : body,
+            username : username, action : action};
 }
 
 function validatePullRequest(prDetails) {
@@ -52,18 +55,23 @@ function validatePullRequest(prDetails) {
 
 function validatePullRequestTitle(prTitle) {
     titleTest = new RegExp(process.env.REGEX_PULL_REQ_TITLE);
-    console.log("Regex for title: " + process.env.REGEX_PULL_REQ_TITLE);
+    console.log('Regex for title: ' + process.env.REGEX_PULL_REQ_TITLE);
     return titleTest.test(prTitle);
 }
 
 function validatePullRequestBody(prBody) {
     bodyTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
-    console.log("Regex for body: " + process.env.REGEX_PULL_REQ_BODY);
+    console.log('Regex for body: ' + process.env.REGEX_PULL_REQ_BODY);
     return bodyTest.test(prBody);
 }
 
-function commentOnPR(repo, id, comment) {
-    repoNameSplit = repo.split("/");
+function commentOnPullRequest(repo, id, comment) {
+    repoNameSplit = repo.split('/');
     issueObj = gh.getIssues(repoNameSplit[0], repoNameSplit[1]);
     issueObj.createIssueComment(id, comment);
+}
+
+function isPullRequestToCheck(prDetails) {
+    return prDetails.action == 'opened' || prDetails.action == 'edited' ||
+           prDetails.action == 'reopened' || prDetails.action == 'review_requested';
 }
