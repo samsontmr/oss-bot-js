@@ -25,10 +25,11 @@ function receive_pull_request(request, response) {
     response.send();
     extractedPrDetails = extractRelevantDetails(request);
     if (isPullRequestToCheck(extractedPrDetails) &&
-        !validatePullRequest(extractedPrDetails)) {
+        !isValidPullRequestTitle(extractedPrDetails)) {
         commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id,
                              'Hi @' + extractedPrDetails.username +
-                             ', please follow the naming conventions for PRs.');
+                             ', ' + process.env.MESSAGE_TO_USER_TITLE);
+        console.log('Message to user: ' + process.env.MESSAGE_TO_USER_TITLE);
         console.log('Check Failed!');
 
     }
@@ -52,17 +53,17 @@ function isPullRequestToCheck(prDetails) {
            prDetails.action == 'reopened' || prDetails.action == 'review_requested';
 }
 
-function validatePullRequest(prDetails) {
-    return validatePullRequestTitle(prDetails.title) && validatePullRequestBody(prDetails.body);
+function isValidPullRequest(prDetails) {
+    return isValidPullRequestTitle(prDetails.title) && isValidPullRequestBody(prDetails.body);
 }
 
-function validatePullRequestTitle(prTitle) {
+function isValidPullRequestTitle(prTitle) {
     titleTest = new RegExp(process.env.REGEX_PULL_REQ_TITLE);
     console.log('Regex for title: ' + process.env.REGEX_PULL_REQ_TITLE);
     return titleTest.test(prTitle);
 }
 
-function validatePullRequestBody(prBody) {
+function isValidPullRequestBody(prBody) {
     bodyTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
     console.log('Regex for body: ' + process.env.REGEX_PULL_REQ_BODY);
     return bodyTest.test(prBody);
