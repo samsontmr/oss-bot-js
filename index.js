@@ -26,12 +26,11 @@ function receive_pull_request(request, response) {
     extractedPrDetails = extractRelevantDetails(request);
     if (isPullRequestToCheck(extractedPrDetails) &&
         !isValidPullRequestTitle(extractedPrDetails)) {
+        console.log('Check Failed!');
         commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id,
                              'Hi @' + extractedPrDetails.username +
                              ', ' + process.env.MESSAGE_TO_USER_TITLE);
         console.log('Message to user: ' + process.env.MESSAGE_TO_USER_TITLE);
-        console.log('Check Failed!');
-
     }
 }
 
@@ -59,6 +58,7 @@ function isValidPullRequest(prDetails) {
 
 function isValidPullRequestTitle(prTitle) {
     titleTest = new RegExp(process.env.REGEX_PULL_REQ_TITLE);
+    console.log('Title being validated: ' + prTitle);
     console.log('Regex for title: ' + process.env.REGEX_PULL_REQ_TITLE);
     return titleTest.test(prTitle);
 }
