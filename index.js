@@ -25,7 +25,7 @@ function receive_pull_request(request, response) {
     response.send();
     extractedPrDetails = extractRelevantDetails(request);
     if (isPullRequestToCheck(extractedPrDetails) &&
-        !isValidPullRequestTitle(extractedPrDetails)) {
+        !isValidPullRequest(extractedPrDetails)) {
         console.log('Check Failed!');
         commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id,
                              'Hi @' + extractedPrDetails.username +
@@ -53,7 +53,8 @@ function isPullRequestToCheck(prDetails) {
 }
 
 function isValidPullRequest(prDetails) {
-    return isValidPullRequestTitle(prDetails.title) && isValidPullRequestBody(prDetails.body);
+    return isValidPullRequestTitle(prDetails.title) 
+    //&& isValidPullRequestBody(prDetails.body);
 }
 
 function isValidPullRequestTitle(prTitle) {
