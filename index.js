@@ -17,12 +17,13 @@ app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
 });
 
-app.post('/pull_req', receive_pull_request);
+app.post('/pull_req', receivePullRequest);
 
 
-function receive_pull_request(request, response) {
+function receivePullRequest(request, response) {
     console.log('Received pull request: \n' + request.body);
     response.send();
+    if (!isPullRequest(request)) return;
     extractedPrDetails = extractRelevantDetails(request);
     if (isPullRequestToCheck(extractedPrDetails) &&
         !isValidPullRequest(extractedPrDetails)) {
@@ -34,13 +35,18 @@ function receive_pull_request(request, response) {
     }
 }
 
-function extractRelevantDetails(received_json) {
-    repo = received_json.body.pull_request.base.repo.full_name;
-    action = received_json.body.action;
-    title = received_json.body.pull_request.title;
-    body = received_json.body.pull_request.body;
-    username = received_json.body.pull_request.user.login;
-    id = received_json.body.pull_request.number;
+function isPullRequest(receivedJson) {
+    console.log("Pull Request field: " + receivedJson.body.pull_request);
+    return !!receivedJson.body.pull_request;
+}
+
+function extractRelevantDetails(receivedJson) {
+    repo = receivedJson.body.pull_request.base.repo.full_name;
+    action = receivedJson.body.action;
+    title = receivedJson.body.pull_request.title;
+    body = receivedJson.body.pull_request.body;
+    username = receivedJson.body.pull_request.user.login;
+    id = receivedJson.body.pull_request.number;
     console.log('Received PR ' + id + ' "' + title + '" from: ' + username +
                 '\n Description: "' + body + '"');
     return {repo : repo, id : id, title : title, body : body,
@@ -53,7 +59,7 @@ function isPullRequestToCheck(prDetails) {
 }
 
 function isValidPullRequest(prDetails) {
-    return isValidPullRequestTitle(prDetails.title) 
+    return isValidPullRequestTitle(prDetails.title);
     //&& isValidPullRequestBody(prDetails.body);
 }
 
