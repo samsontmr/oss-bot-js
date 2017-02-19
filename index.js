@@ -28,15 +28,16 @@ function receivePullRequest(request, response) {
     if (isPullRequestToCheck(extractedPrDetails) &&
         !isValidPullRequest(extractedPrDetails)) {
         console.log('Check Failed!');
+        var responseMsg = buildResponseMessage(extractedPrDetails);
         commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id,
-                             'Hi @' + extractedPrDetails.username +
-                             ', ' + process.env.MESSAGE_TO_USER_TITLE);
-        console.log('Message to user: ' + process.env.MESSAGE_TO_USER_TITLE);
+                             responseMsg);
+        console.log('Message to user: \n' + '"' + responseMsg + '"');
     }
 }
 
 function isPullRequest(receivedJson) {
-    console.log("Pull Request field: " + receivedJson.body.pull_request);
+    console.log("Pull Request field: " + '{' + receivedJson.body.pull_request
+                + '}');
     return !!receivedJson.body.pull_request;
 }
 
@@ -59,8 +60,8 @@ function isPullRequestToCheck(prDetails) {
 }
 
 function isValidPullRequest(prDetails) {
-    return isValidPullRequestTitle(prDetails.title);
-    //&& isValidPullRequestBody(prDetails.body);
+    return isValidPullRequestTitle(prDetails.title)
+           && isValidPullRequestBody(prDetails.body);
 }
 
 function isValidPullRequestTitle(prTitle) {
@@ -71,7 +72,7 @@ function isValidPullRequestTitle(prTitle) {
 }
 
 function isValidPullRequestBody(prBody) {
-    bodyTest = new RegExp(process.env.REGEX_PULL_REQ_BODY);
+    bodyTest = new RegExp(process.env.REGEX_PULL_REQ_BODY, "m");
     console.log('Regex for body: ' + process.env.REGEX_PULL_REQ_BODY);
     return bodyTest.test(prBody);
 }
@@ -80,4 +81,18 @@ function commentOnPullRequest(repo, id, comment) {
     repoNameSplit = repo.split('/');
     issueObj = gh.getIssues(repoNameSplit[0], repoNameSplit[1]);
     issueObj.createIssueComment(id, comment);
+}
+
+function buildResponseMessage(prDetails) {
+    var message =  'Hi @' + prDetails.username
+                   + ', these parts of your pull request do not appear to '
+                   + 'follow our [contributing guidelines]('
+                   + process.env.CONTRIBUTING_GUIDELINES + '):\n\n';
+    if (!isValidPullRequestTitle(prDetails.title)) {
+        message += '1. PR Title\n';
+    }
+    if (!isValidPullRequestBody(prDetails.body)) {
+        message += '1. PR Description\n';
+    }
+    return message;
 }
