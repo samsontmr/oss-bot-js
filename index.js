@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var GitHub = require('github-api');
+var keywordChecker = require('./keyword_checker.js');
 
 // basic auth
 var gh = new GitHub({
@@ -93,6 +94,7 @@ function buildResponseMessage(prDetails) {
     }
     if (!isValidPullRequestBody(prDetails.body)) {
         message += '1. PR Description\n';
+        message += keywordChecker.getFeedbackMessage(prDetails.body);
     }
     return message;
 }
