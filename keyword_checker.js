@@ -2,13 +2,16 @@ module.exports = {
     getFeedbackMessage: function (string) {
         message = "";
         
-        if (!detectIssueReference(string)) {
-            message += getMessageIssueReferenceMissing();
-        } else if (detectSpaceBetweenHashtagAndDigit(string)) {
+        if (detectSpaceBetweenHashtagAndDigit(string)) {
+            console.log("Detected space between # and digit");
             message += getMessageSpaceBetweenHashtagAndDigit();
+        } else if (!detectIssueReference(string)) {
+            console.log("Issue reference not found");
+            message += getMessageIssueReferenceMissing();
         }
         
         if (!detectGithubKeyword(string)) {
+            console.log("Missing GitHub keyword");
             message += getMessageGithubKeywordMissing();
         }
         
