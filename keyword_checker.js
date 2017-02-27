@@ -35,13 +35,13 @@ function detectGithubKeyword(string) {
 }
 
 function getMessageIssueReferenceMissing() {
-    return "  * Issue Reference (`#<issue-number>`) missing.\n"
+    return "   * Issue Reference (`#<issue-number>`) missing.\n"
 }
 
 function getMessageSpaceBetweenHashtagAndDigit() {
-    return "  * There should not be a space between the `#` and `issue-number`.\n"
+    return "   * There should not be a space between the `#` and `issue-number`.\n"
 }
 
 function getMessageGithubKeywordMissing() {
-    return "  * GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.\n"
+    return "   * GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.\n"
 }
