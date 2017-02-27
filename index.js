@@ -94,7 +94,10 @@ function buildResponseMessage(prDetails) {
     }
     if (!isValidPullRequestBody(prDetails.body)) {
         message += '1. PR Description\n';
-        message += keywordChecker.getFeedbackMessage(prDetails.body);
+        if (process.env.ENABLE_KEYWORD_CHECKER != undefined
+            && process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === "true") {
+            message += keywordChecker.getFeedbackMessage(prDetails.body);
+        }
     }
     return message;
 }
