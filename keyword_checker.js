@@ -24,20 +24,23 @@ module.exports = {
     }
 };
 
+function testRegexp(pattern, string) {
+  tester = new RegExp('[\\s\\S]*' + pattern + '[\\s\\S]*');
+  return tester.test(string);
+}
+
 /*
 * Returns true if argument contains an issue reference, false otherwise
 */
 function containsIssueReference(string) {
-    referenceTest = new RegExp(/[\s\S]*#\d[\s\S]*/);
-    return referenceTest.test(string);
+    return testRegexp('#\\d', string);
 }
 
 /*
 * Returns true if argument contains a space between a # and a digit, false otherwise
 */
 function containsSpaceBetweenHashtagAndDigit(string) {
-    spaceTest = new RegExp(/[\s\S]*# \d[\s\S]*/);
-    return spaceTest.test(string);
+    return testRegexp('# \\d', string)
 }
 
 /*
@@ -46,8 +49,12 @@ function containsSpaceBetweenHashtagAndDigit(string) {
 * and their lowercase equivalents, false otherwise
 */
 function containsGithubKeyword(string) {
-    keywordTest = new RegExp(/[\s\S]*(([F|f]ix(e[d|s])?)|([C|c]lose[d|s]?)|([R|r]esolve[d|s]?))[\s\S]*/);
-    return keywordTest.test(string);
+    fixRegexPattern = '([F|f]ix(e[d|s])?)';
+    closeRegexPattern = '([C|c]lose[d|s]?)';
+    resolveRegexPattern = '([R|r]esolve[d|s]?)';
+    return testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern
+                      + '|' + resolveRegexPattern + ')',
+                      string);
 }
 
 /*
