@@ -27,6 +27,7 @@ oss-bot can currently:
 1. In the Heroku app settings, click `Reveal Config Vars`. Add the following keys: 
 ```
     GITHUB_API_TOKEN : Your bot's GitHub API access token
+    CONTRIBUTING_GUIDELINES : Your project's contributing guidelines
     REGEX_PULL_REQ_TITLE : Javascript regex to validate the PR title
     REGEX_PULL_REQ_BODY : Javascript regex to validate the PR description
 ```
