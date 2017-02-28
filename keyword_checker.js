@@ -5,18 +5,18 @@ module.exports = {
     * Returns a string containing the formatted feedback message
     */
     getFeedback: function (string) {
-        message = "";
+        message = '';
         
         if (containsSpaceBetweenHashtagAndDigit(string)) {
-            console.log("Detected space between # and digit");
+            console.log('Detected space between # and digit');
             message += getFormattedMessage(getMessageSpaceBetweenHashtagAndDigit());
         } else if (!containsIssueReference(string)) {
-            console.log("Issue reference not found");
+            console.log('Issue reference not found');
             message += getFormattedMessage(getMessageIssueReferenceMissing());
         }
         
         if (!containsGithubKeyword(string)) {
-            console.log("Missing GitHub keyword");
+            console.log('Missing GitHub keyword');
             message += getFormattedMessage(getMessageGithubKeywordMissing());
         }
         
@@ -58,13 +58,13 @@ function getFormattedMessage(message) {
 }
 
 function getMessageIssueReferenceMissing() {
-    return "Issue Reference (`#<issue-number>`) missing."
+    return 'Issue Reference (`#<issue-number>`) missing.';
 }
 
 function getMessageSpaceBetweenHashtagAndDigit() {
-    return "There should not be a space between the `#` and `issue-number`."
+    return 'There should not be a space between the `#` and `issue-number`.'
 }
 
 function getMessageGithubKeywordMissing() {
-    return "GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords."
+    return 'GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.'
 }
