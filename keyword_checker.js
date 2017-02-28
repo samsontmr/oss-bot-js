@@ -7,15 +7,15 @@ module.exports = {
     getFeedback: function (string) {
         message = "";
         
-        if (detectSpaceBetweenHashtagAndDigit(string)) {
+        if (containsSpaceBetweenHashtagAndDigit(string)) {
             console.log("Detected space between # and digit");
             message += getFormattedMessage(getMessageSpaceBetweenHashtagAndDigit());
-        } else if (!detectIssueReference(string)) {
+        } else if (!containsIssueReference(string)) {
             console.log("Issue reference not found");
             message += getFormattedMessage(getMessageIssueReferenceMissing());
         }
         
-        if (!detectGithubKeyword(string)) {
+        if (!containsGithubKeyword(string)) {
             console.log("Missing GitHub keyword");
             message += getFormattedMessage(getMessageGithubKeywordMissing());
         }
@@ -28,7 +28,7 @@ module.exports = {
 * Checks if an issue reference is present in argument
 * Returns true if present, false otherwise
 */
-function detectIssueReference(string) {
+function containsIssueReference(string) {
     referenceTest = new RegExp(/[\s\S]*#\d[\s\S]*/);
     return referenceTest.test(string);
 }
@@ -37,7 +37,7 @@ function detectIssueReference(string) {
 * Checks if argument contains a space between a # and a digit
 * Returns true if present, false otherwise
 */
-function detectSpaceBetweenHashtagAndDigit(string) {
+function containsSpaceBetweenHashtagAndDigit(string) {
     spaceTest = new RegExp(/[\s\S]*# \d[\s\S]*/);
     return spaceTest.test(string);
 }
@@ -46,7 +46,7 @@ function detectSpaceBetweenHashtagAndDigit(string) {
 * Detects if a GitHub keyword is present in argument
 * Returns true if present, false otherwise
 */
-function detectGithubKeyword(string) {
+function containsGithubKeyword(string) {
     keywordTest = new RegExp(/[\s\S]*(([F|f]ix(e[d|s])?)|([C|c]lose[d|s]?)|([R|r]esolve[d|s]?))[\s\S]*/);
     return keywordTest.test(string);
 }
