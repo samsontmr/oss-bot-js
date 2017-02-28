@@ -1,5 +1,5 @@
 module.exports = {
-    getFeedbackMessage: function (string) {
+    getFeedback: function (string) {
         message = "";
         
         if (detectSpaceBetweenHashtagAndDigit(string)) {

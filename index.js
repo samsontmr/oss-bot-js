@@ -96,7 +96,7 @@ function buildResponseMessage(prDetails) {
         message += '1. PR Description\n';
         if (process.env.ENABLE_KEYWORD_CHECKER != undefined
             && process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === "true") {
-            message += keywordChecker.getFeedbackMessage(prDetails.body);
+            message += keywordChecker.getFeedback(prDetails.body);
         }
     }
     return message;
