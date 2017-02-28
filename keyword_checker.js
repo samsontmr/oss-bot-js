@@ -40,7 +40,7 @@ function containsIssueReference(string) {
 * Returns true if argument contains a space between a # and a digit, false otherwise
 */
 function containsSpaceBetweenHashtagAndDigit(string) {
-    return testRegexp('# \\d', string)
+    return testRegexp('# \\d', string);
 }
 
 /*
@@ -52,8 +52,7 @@ function containsGithubKeyword(string) {
     fixRegexPattern = '([F|f]ix(e[d|s])?)';
     closeRegexPattern = '([C|c]lose[d|s]?)';
     resolveRegexPattern = '([R|r]esolve[d|s]?)';
-    return testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern
-                      + '|' + resolveRegexPattern + ')',
+    return testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern + '|' + resolveRegexPattern + ')',
                       string);
 }
 
@@ -69,9 +68,9 @@ function getMessageIssueReferenceMissing() {
 }
 
 function getMessageSpaceBetweenHashtagAndDigit() {
-    return 'There should not be a space between the `#` and `issue-number`.'
+    return 'There should not be a space between the `#` and `issue-number`.';
 }
 
 function getMessageGithubKeywordMissing() {
-    return 'GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.'
+    return 'GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.';
 }
