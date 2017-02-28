@@ -25,8 +25,7 @@ module.exports = {
 };
 
 /*
-* Checks if an issue reference is present in argument
-* Returns true if present, false otherwise
+* Returns true if argument contains an issue reference, false otherwise
 */
 function containsIssueReference(string) {
     referenceTest = new RegExp(/[\s\S]*#\d[\s\S]*/);
@@ -34,8 +33,7 @@ function containsIssueReference(string) {
 }
 
 /*
-* Checks if argument contains a space between a # and a digit
-* Returns true if present, false otherwise
+* Returns true if argument contains a space between a # and a digit, false otherwise
 */
 function containsSpaceBetweenHashtagAndDigit(string) {
     spaceTest = new RegExp(/[\s\S]*# \d[\s\S]*/);
@@ -43,14 +41,18 @@ function containsSpaceBetweenHashtagAndDigit(string) {
 }
 
 /*
-* Detects if a GitHub keyword is present in argument
-* Returns true if present, false otherwise
+* Returns true if argument contains one of GitHub keywords:
+* Fix, Fixes, Fixed, Close, Closes, Closed, Resolve, Resolves, Resolved,
+* and their lowercase equivalents, false otherwise
 */
 function containsGithubKeyword(string) {
     keywordTest = new RegExp(/[\s\S]*(([F|f]ix(e[d|s])?)|([C|c]lose[d|s]?)|([R|r]esolve[d|s]?))[\s\S]*/);
     return keywordTest.test(string);
 }
 
+/*
+* Formats message as a GFMD level two unordered list item
+*/
 function getFormattedMessage(message) {
     return "   * " + message + "\n";
 }
