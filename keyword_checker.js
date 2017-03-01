@@ -25,7 +25,7 @@ module.exports = {
 };
 
 function testRegexp(pattern, string) {
-  tester = new RegExp('[\\s\\S]*' + pattern + '[\\s\\S]*');
+  tester = new RegExp(pattern);
   return tester.test(string);
 }
 
