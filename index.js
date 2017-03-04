@@ -61,16 +61,14 @@ function isValidPullRequest(prDetails) {
 }
 
 function isValidPullRequestTitle(prTitle) {
-  titleTest = new RegExp(process.env.REGEX_PULL_REQ_TITLE);
   console.log('Title being validated: ' + prTitle);
   console.log('Regex for title: ' + process.env.REGEX_PULL_REQ_TITLE);
-  return titleTest.test(prTitle);
+  return utils.testRegexp(process.env.REGEX_PULL_REQ_TITLE, prTitle);
 }
 
 function isValidPullRequestBody(prBody) {
-  bodyTest = new RegExp(process.env.REGEX_PULL_REQ_BODY, "m");
   console.log('Regex for body: ' + process.env.REGEX_PULL_REQ_BODY);
-  return bodyTest.test(prBody);
+  return utils.testRegexp(process.env.REGEX_PULL_REQ_BODY, prBody);
 }
 
 function commentOnPullRequest(repo, id, comment) {

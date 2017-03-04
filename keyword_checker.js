@@ -1,3 +1,5 @@
+var utils = require('./utils.js');
+
 module.exports = {
   /*
   * Scans input string for convention violations and returns feedback based on
@@ -24,23 +26,18 @@ module.exports = {
   }
 };
 
-function testRegexp(pattern, string) {
-  var tester = new RegExp(pattern);
-  return tester.test(string);
-}
-
 /*
 * Returns true if argument contains an issue reference, false otherwise
 */
 function containsIssueReference(string) {
-  return testRegexp('#\\d', string);
+  return utils.testRegexp('#\\d', string);
 }
 
 /*
 * Returns true if argument contains a space between a # and a digit, false otherwise
 */
 function containsSpaceBetweenHashtagAndDigit(string) {
-  return testRegexp('# \\d', string);
+  return utils.testRegexp('# \\d', string);
 }
 
 /*
@@ -52,8 +49,8 @@ function containsGithubKeyword(string) {
   var fixRegexPattern = '([F|f]ix(e[d|s])?)';
   var closeRegexPattern = '([C|c]lose[d|s]?)';
   var resolveRegexPattern = '([R|r]esolve[d|s]?)';
-  return testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern + '|' + resolveRegexPattern + ')',
-                    string);
+  return utils.testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern + '|' + resolveRegexPattern + ')',
+    string);
 }
 
 /*
