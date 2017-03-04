@@ -5,7 +5,7 @@ module.exports = {
   * Returns a string containing the formatted feedback message
   */
   getFeedback: function (string) {
-    message = '';
+    var message = '';
     
     if (containsSpaceBetweenHashtagAndDigit(string)) {
       console.log('Detected space between # and digit');
@@ -25,8 +25,8 @@ module.exports = {
 };
 
 function testRegexp(pattern, string) {
-tester = new RegExp(pattern);
-return tester.test(string);
+  var tester = new RegExp(pattern);
+  return tester.test(string);
 }
 
 /*
@@ -49,9 +49,9 @@ function containsSpaceBetweenHashtagAndDigit(string) {
 * and their lowercase equivalents, false otherwise
 */
 function containsGithubKeyword(string) {
-  fixRegexPattern = '([F|f]ix(e[d|s])?)';
-  closeRegexPattern = '([C|c]lose[d|s]?)';
-  resolveRegexPattern = '([R|r]esolve[d|s]?)';
+  var fixRegexPattern = '([F|f]ix(e[d|s])?)';
+  var closeRegexPattern = '([C|c]lose[d|s]?)';
+  var resolveRegexPattern = '([R|r]esolve[d|s]?)';
   return testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern + '|' + resolveRegexPattern + ')',
                     string);
 }
