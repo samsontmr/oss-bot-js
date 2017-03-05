@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var GitHub = require('github-api');
 var keywordChecker = require('./keyword_checker.js');
+var utils = require('./utils.js');
 
 // basic auth
 var gh = new GitHub({
