@@ -30,6 +30,7 @@ oss-bot can currently:
     CONTRIBUTING_GUIDELINES : Your project's contributing guidelines
     REGEX_PULL_REQ_TITLE : Javascript regex to validate the PR title
     REGEX_PULL_REQ_BODY : Javascript regex to validate the PR description
+    ENABLE_KEYWORD_CHECKER (optional variable) : Set value to `TRUE` to enable GitHub keyword checking 
 ```
 1. Deploy the bot to Heroku.
 
