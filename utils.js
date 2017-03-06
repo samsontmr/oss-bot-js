@@ -1,6 +1,6 @@
 module.exports = {
-  testRegexp: function(pattern, string) {
+  testRegexp(pattern, string) {
     const tester = new RegExp(pattern);
     return tester.test(string);
-  }
+  },
 };
