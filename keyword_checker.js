@@ -6,8 +6,8 @@ module.exports = {
   * detected violations
   * Returns a string containing the formatted feedback message
   */
-  getFeedback: function (string) {
-    var message = '';
+  getFeedback: function(string) {
+    let message = '';
     
     if (containsSpaceBetweenHashtagAndDigit(string)) {
       console.log('Detected space between # and digit');
@@ -49,7 +49,7 @@ function containsGithubKeyword(string) {
   var fixRegexPattern = '([F|f]ix(e[d|s])?)';
   var closeRegexPattern = '([C|c]lose[d|s]?)';
   var resolveRegexPattern = '([R|r]esolve[d|s]?)';
-  return utils.testRegexp('(' + fixRegexPattern + '|' + closeRegexPattern + '|' + resolveRegexPattern + ')',
+  return utils.testRegexp(`(${fixRegexPattern}|${closeRegexPattern}|${resolveRegexPattern})`,
     string);
 }
 
@@ -57,7 +57,7 @@ function containsGithubKeyword(string) {
 * Formats message as a GFMD level two unordered list item
 */
 function getFormattedMessage(message) {
-  return "   * " + message + "\n";
+  return `   * ${message}\n`;
 }
 
 function getMessageIssueReferenceMissing() {
