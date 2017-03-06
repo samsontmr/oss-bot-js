@@ -84,7 +84,7 @@ function commentOnPullRequest(repo, id, comment) {
 }
 
 function buildResponseMessage(prDetails) {
-  const message = `Hi @${prDetails.username}, these parts of your pull request do not appear to follow our [contributing guidelines](${process.env.CONTRIBUTING_GUIDELINES}):\n\n`;
+  let message = `Hi @${prDetails.username}, these parts of your pull request do not appear to follow our [contributing guidelines](${process.env.CONTRIBUTING_GUIDELINES}):\n\n`;
   if (!isValidPullRequestTitle(prDetails.title)) {
     message += '1. PR Title\n';
   }
