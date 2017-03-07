@@ -7,13 +7,17 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jasmine"
   },
   "dependencies": {
     "ejs": "2.4.1",
     "body-parser": "^1.15.2",
     "express": "4.13.3",
     "github-api": "3.0.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.5.3"
   },
   "repository": {
     "type": "git",

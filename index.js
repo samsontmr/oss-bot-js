@@ -94,3 +94,8 @@ function buildResponseMessage(prDetails) {
   }
   return message;
 }
+
+// For unit testing purposes
+module.exports = {
+  buildResponseMessage: buildResponseMessage
+};
