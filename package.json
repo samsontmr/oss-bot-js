@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "jasmine",
-    "lint": "eslint *.js",
+    "lint": "eslint **/*.js",
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
