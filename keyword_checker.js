@@ -1,4 +1,5 @@
 const utils = require('./utils');
+const winston = require('winston');
 
 /*
 * Returns true if argument contains an issue reference, false otherwise
@@ -56,15 +57,15 @@ module.exports = {
     let message = '';
 
     if (containsSpaceBetweenHashtagAndDigit(string)) {
-      console.log('Detected space between # and digit');
+      winston.log('Detected space between # and digit');
       message += getFormattedMessage(getMessageSpaceBetweenHashtagAndDigit());
     } else if (!containsIssueReference(string)) {
-      console.log('Issue reference not found');
+      winston.log('Issue reference not found');
       message += getFormattedMessage(getMessageIssueReferenceMissing());
     }
 
     if (!containsGithubKeyword(string)) {
-      console.log('Missing GitHub keyword');
+      winston.log('Missing GitHub keyword');
       message += getFormattedMessage(getMessageGithubKeywordMissing());
     }
 
