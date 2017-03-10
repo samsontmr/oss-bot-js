@@ -28,47 +28,26 @@ function containsGithubKeyword(string) {
     string);
 }
 
-/*
-* Formats message as a GFMD level two unordered list item
-*/
-function getFormattedMessage(message) {
-  return `   * ${message}\n`;
-}
-
-function getMessageIssueReferenceMissing() {
-  return 'Issue Reference (`#<issue-number>`) missing.';
-}
-
-function getMessageSpaceBetweenHashtagAndDigit() {
-  return 'There should not be a space between the `#` and `issue-number`.';
-}
-
-function getMessageGithubKeywordMissing() {
-  return 'GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.';
-}
-
 module.exports = {
   /*
-  * Scans input string for convention violations and returns feedback based on
-  * detected violations
-  * Returns a string containing the formatted feedback message
+  * Scans input string for convention violations and returns violations detected.
   */
-  getFeedback(string) {
-    let message = '';
+  getDetailedViolations(string) {
+    const violations = {};
 
     if (containsSpaceBetweenHashtagAndDigit(string)) {
       winston.log('Detected space between # and digit');
-      message += getFormattedMessage(getMessageSpaceBetweenHashtagAndDigit());
+      violations.spaceBetweenHashtagAndDigit = true;
     } else if (!containsIssueReference(string)) {
       winston.log('Issue reference not found');
-      message += getFormattedMessage(getMessageIssueReferenceMissing());
+      violations.noIssueReference = true;
     }
 
     if (!containsGithubKeyword(string)) {
       winston.log('Missing GitHub keyword');
-      message += getFormattedMessage(getMessageGithubKeywordMissing());
+      violations.missingGithubKeyword = true;
     }
 
-    return message;
+    return violations;
   },
 };

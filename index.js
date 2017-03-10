@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const GitHub = require('github-api');
 const keywordChecker = require('./keyword_checker');
+const messageBuilder = require('./messageBuilder');
 const utils = require('./utils');
 const winston = require('winston');
 
@@ -63,19 +64,19 @@ function commentOnPullRequest(repo, id, comment) {
   issueObj.createIssueComment(id, comment);
 }
 
-function buildResponseMessage(prDetails) {
-  let message = `Hi @${prDetails.username}, these parts of your pull request do not appear to follow our [contributing guidelines](${process.env.CONTRIBUTING_GUIDELINES}):\n\n`;
+function getViolations(prDetails) {
+  const violations = {};
   if (!isValidPullRequestTitle(prDetails.title)) {
-    message += '1. PR Title\n';
+    violations.title = { main: true };
   }
   if (!isValidPullRequestBody(prDetails.body)) {
-    message += '1. PR Description\n';
+    violations.body = { main: true };
     if (process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
       process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true') {
-      message += keywordChecker.getFeedback(prDetails.body);
+      violations.body = { details: keywordChecker.getDetailedViolations(prDetails.body) };
     }
   }
-  return message;
+  return violations;
 }
 
 function receivePullRequest(request, response) {
@@ -85,9 +86,11 @@ function receivePullRequest(request, response) {
   const extractedPrDetails = extractRelevantDetails(request);
   if (isPullRequestToCheck(extractedPrDetails) && !isValidPullRequest(extractedPrDetails)) {
     winston.log('Check Failed!');
-    const responseMsg = buildResponseMessage(extractedPrDetails);
-    commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id, responseMsg);
-    winston.log(`Message to user: \n"${responseMsg}"`);
+    const responseMessage = messageBuilder.getFeedbackMessage(
+      extractedPrDetails.username,
+      getViolations(extractedPrDetails));
+    commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id, responseMessage);
+    winston.log(`Message to user: \n"${responseMessage}"`);
   }
 }
 
@@ -101,5 +104,5 @@ app.listen(port, () => {
 
 // For unit testing purposes
 module.exports = {
-  buildResponseMessage,
+  getViolations,
 };
