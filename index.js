@@ -16,18 +16,18 @@ const gh = new GitHub({
 app.use(bodyParser.json());
 
 function isPullRequest(receivedJson) {
-  winston.log(`Pull Request field: {${receivedJson.body.pull_request}}`);
+  winston.info(`Pull Request field: {${receivedJson.body.pull_request}}`);
   return !!receivedJson.body.pull_request;
 }
 
 function extractRelevantDetails(receivedJson) {
-  const { pullRequest, action } = receivedJson.body;
+  const { pull_request: pullRequest, action } = receivedJson.body;
   const title = pullRequest.title;
   const body = pullRequest.body;
   const repo = pullRequest.base.repo.full_name;
   const username = pullRequest.user.login;
   const id = pullRequest.number;
-  winston.log(`Received PR ${id} "${title}" from: ${username}\nDescription: "${body}"`);
+  winston.info(`Received PR ${id} "${title}" from: ${username}\nDescription: "${body}"`);
   return {
     repo,
     id,
@@ -44,13 +44,13 @@ function isPullRequestToCheck(prDetails) {
 }
 
 function isValidPullRequestTitle(prTitle) {
-  winston.log(`Title being validated: ${prTitle}`);
-  winston.log(`Regex for title: ${process.env.REGEX_PULL_REQ_TITLE}`);
+  winston.info(`Title being validated: ${prTitle}`);
+  winston.info(`Regex for title: ${process.env.REGEX_PULL_REQ_TITLE}`);
   return utils.testRegexp(process.env.REGEX_PULL_REQ_TITLE, prTitle);
 }
 
 function isValidPullRequestBody(prBody) {
-  winston.log(`Regex for body: ${process.env.REGEX_PULL_REQ_BODY}`);
+  winston.info(`Regex for body: ${process.env.REGEX_PULL_REQ_BODY}`);
   return utils.testRegexp(process.env.REGEX_PULL_REQ_BODY, prBody);
 }
 
@@ -70,31 +70,31 @@ function getViolations(prDetails) {
     violations.title = { main: true };
     if (process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
       process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true') {
-      violations.title = { details: keywordChecker.getDetailedTitleViolations(prDetails.title) };
+      violations.title.details = keywordChecker.getDetailedTitleViolations(prDetails.title);
     }
   }
   if (!isValidPullRequestBody(prDetails.body)) {
     violations.body = { main: true };
     if (process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
       process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true') {
-      violations.body = { details: keywordChecker.getDetailedBodyViolations(prDetails.body) };
+      violations.body.details = keywordChecker.getDetailedBodyViolations(prDetails.body);
     }
   }
   return violations;
 }
 
 function receivePullRequest(request, response) {
-  winston.log(`Received pull request: \n${request.body}`);
+  winston.info(`Received pull request: \n${request.body}`);
   response.send();
   if (!isPullRequest(request)) return;
   const extractedPrDetails = extractRelevantDetails(request);
   if (isPullRequestToCheck(extractedPrDetails) && !isValidPullRequest(extractedPrDetails)) {
-    winston.log('Check Failed!');
+    winston.info('Check Failed!');
     const responseMessage = messageBuilder.getFeedbackMessage(
       extractedPrDetails.username,
       getViolations(extractedPrDetails));
     commentOnPullRequest(extractedPrDetails.repo, extractedPrDetails.id, responseMessage);
-    winston.log(`Message to user: \n"${responseMessage}"`);
+    winston.info(`Message to user: \n"${responseMessage}"`);
   }
 }
 
@@ -103,7 +103,7 @@ app.post('/pull_req', receivePullRequest);
 const port = process.env.PORT || 5000;
 app.set('port', port);
 app.listen(port, () => {
-  winston.log(`Node app is running on port ${port}`);
+  winston.info(`Node app is running on port ${port}`);
 });
 
 // For unit testing purposes

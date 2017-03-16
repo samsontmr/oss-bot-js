@@ -36,10 +36,10 @@ module.exports = {
     const violations = {};
 
     if (containsSpaceBetweenHashtagAndDigit(string)) {
-      winston.log('Detected space between # and digit');
+      winston.info('Detected space between # and digit');
       violations.spaceBetweenHashtagAndDigit = true;
     } else if (!containsIssueReference(string)) {
-      winston.log('Issue reference not found');
+      winston.info('Issue reference not found');
       violations.noIssueReference = true;
     }
 
@@ -52,15 +52,15 @@ module.exports = {
     const violations = {};
 
     if (containsSpaceBetweenHashtagAndDigit(string)) {
-      winston.log('Detected space between # and digit');
+      winston.info('Detected space between # and digit');
       violations.spaceBetweenHashtagAndDigit = true;
     } else if (!containsIssueReference(string)) {
-      winston.log('Issue reference not found');
+      winston.info('Issue reference not found');
       violations.noIssueReference = true;
     }
 
     if (!containsGithubKeyword(string)) {
-      winston.log('Missing GitHub keyword');
+      winston.info('Missing GitHub keyword');
       violations.missingGithubKeyword = true;
     }
 
