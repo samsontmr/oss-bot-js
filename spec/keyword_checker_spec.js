@@ -2,6 +2,18 @@
 const keyword_checker = require('../keyword_checker.js');
 
 describe('keyword_checker', () => {
+  it('should feedback when title string contains space between # and digit', () => {
+    const violations = keyword_checker.getDetailedTitleViolations('Fix # 27');
+    const expectedViolations = { spaceBetweenHashtagAndDigit: true };
+    expect(violations).toEqual(expectedViolations);
+  });
+
+  it('should feedback when title string is missing issue reference', () => {
+    const violations = keyword_checker.getDetailedTitleViolations('Fixed something');
+    const expectedViolations = { noIssueReference: true };
+    expect(violations).toEqual(expectedViolations);
+  });
+
   it('should feedback when body string contains space between # and digit', () => {
     const violations = keyword_checker.getDetailedBodyViolations('Fixed # 27');
     const expectedViolations = { spaceBetweenHashtagAndDigit: true };
