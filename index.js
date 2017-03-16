@@ -25,7 +25,7 @@ function extractRelevantDetails(receivedJson) {
   const title = pullRequest.title;
   const body = pullRequest.body;
   const repo = pullRequest.base.repo.full_name;
-  const username = pullRequest.user.infoin;
+  const username = pullRequest.user.login;
   const id = pullRequest.number;
   winston.info(`Received PR ${id} "${title}" from: ${username}\nDescription: "${body}"`);
   return {
