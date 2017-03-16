@@ -33,6 +33,11 @@ function buildTitleFeedback(violations) {
   if (Object.keys(violations).length === 0) return message;
   if (violations.main === true) {
     message += getFormattedMessageLevelOneOrdered(messages.prTitle);
+    if (isKeywordCheckerEnabled()) {
+      Object.keys(violations.details).forEach((key) => {
+        message += getFormattedMessageLevelTwoUnordered(messages[key]);
+      });
+    }
   }
   return message;
 }
