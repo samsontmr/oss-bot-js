@@ -28,9 +28,13 @@ function getFormattedMessageLevelOneOrdered(message) {
 }
 
 function buildTitleFeedback(violations) {
+  winston.info(`Title Violations: ${JSON.stringify(violations)}`);
   let message = '';
   if (violations === undefined) winston.error('violations is undefined');
-  if (Object.keys(violations).length === 0) return message;
+  if (Object.keys(violations).length === 0) {
+    winston.info('No title violations');
+    return message;
+  }
   if (violations.main === true) {
     message += getFormattedMessageLevelOneOrdered(messages.prTitle);
     if (isKeywordCheckerEnabled()) {
@@ -45,7 +49,10 @@ function buildTitleFeedback(violations) {
 function buildDescriptionFeedback(violations) {
   let message = '';
   if (violations === undefined) winston.error('violations is undefined');
-  if (Object.keys(violations).length === 0) return message;
+  if (Object.keys(violations).length === 0) {
+    winston.info('No description violations');
+    return message;
+  }
   if (violations.main === true) {
     message += getFormattedMessageLevelOneOrdered(messages.prBody);
     if (isKeywordCheckerEnabled()) {
