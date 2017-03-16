@@ -21,7 +21,7 @@ function isPullRequest(receivedJson) {
 }
 
 function extractRelevantDetails(receivedJson) {
-  const { pullRequest, action } = receivedJson.body;
+  const { pull_request: pullRequest, action } = receivedJson.body;
   const title = pullRequest.title;
   const body = pullRequest.body;
   const repo = pullRequest.base.repo.full_name;
