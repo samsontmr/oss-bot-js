@@ -32,7 +32,23 @@ module.exports = {
   /*
   * Scans input string for convention violations and returns violations detected.
   */
-  getDetailedViolations(string) {
+  getDetailedTitleViolations(string) {
+    const violations = {};
+
+    if (containsSpaceBetweenHashtagAndDigit(string)) {
+      winston.log('Detected space between # and digit');
+      violations.spaceBetweenHashtagAndDigit = true;
+    } else if (!containsIssueReference(string)) {
+      winston.log('Issue reference not found');
+      violations.noIssueReference = true;
+    }
+
+    return violations;
+  },
+  /*
+  * Scans input string for convention violations and returns violations detected.
+  */
+  getDetailedBodyViolations(string) {
     const violations = {};
 
     if (containsSpaceBetweenHashtagAndDigit(string)) {
