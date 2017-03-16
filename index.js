@@ -73,7 +73,7 @@ function getViolations(prDetails) {
     violations.body = { main: true };
     if (process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
       process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true') {
-      violations.body = { details: keywordChecker.getDetailedViolations(prDetails.body) };
+      violations.body = { details: keywordChecker.getDetailedBodyViolations(prDetails.body) };
     }
   }
   return violations;

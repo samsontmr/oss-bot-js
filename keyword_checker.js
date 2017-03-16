@@ -32,7 +32,7 @@ module.exports = {
   /*
   * Scans input string for convention violations and returns violations detected.
   */
-  getDetailedViolations(string) {
+  getDetailedBodyViolations(string) {
     const violations = {};
 
     if (containsSpaceBetweenHashtagAndDigit(string)) {
