@@ -5,7 +5,7 @@ const messages = {
   prBody: 'PR Description',
   spaceBetweenHashtagAndDigit: 'PR contains a space between the hashtag and digit.',
   noIssueReference: 'Issue Reference (`#<issue-number>`) missing.',
-  missingGithubKeyword: 'GitHub Keyword missing: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.',
+  missingGithubKeyword: 'Should contain GitHub keyword to auto-close issue it fixes: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.',
 };
 
 function isKeywordCheckerEnabled() {
