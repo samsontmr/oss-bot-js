@@ -1,4 +1,7 @@
 const winston = require('winston');
+const utils = require('./utils');
+
+const KEYWORD_CHECKS_ENABLED = utils.isFeatureEnabled(process.env.ENABLE_KEYWORD_CHECKER);
 
 const messages = {
   prTitle: 'PR Title',
@@ -7,11 +10,6 @@ const messages = {
   noIssueReference: 'Issue Reference (`#<issue-number>`) missing.',
   missingGithubKeyword: 'Should contain GitHub keyword to auto-close issue it fixes: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.',
 };
-
-function isKeywordCheckerEnabled() {
-  return process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
-    process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true';
-}
 
 /*
 * Formats message as a GFMD level two unordered list item
@@ -37,7 +35,7 @@ function buildTitleFeedback(violations) {
   }
   if (violations.main === true) {
     message += getFormattedMessageLevelOneOrdered(messages.prTitle);
-    if (isKeywordCheckerEnabled()) {
+    if (KEYWORD_CHECKS_ENABLED) {
       Object.keys(violations.details).forEach((key) => {
         message += getFormattedMessageLevelTwoUnordered(messages[key]);
       });
@@ -55,7 +53,7 @@ function buildDescriptionFeedback(violations) {
   }
   if (violations.main === true) {
     message += getFormattedMessageLevelOneOrdered(messages.prBody);
-    if (isKeywordCheckerEnabled()) {
+    if (KEYWORD_CHECKS_ENABLED) {
       Object.keys(violations.details).forEach((key) => {
         message += getFormattedMessageLevelTwoUnordered(messages[key]);
       });
