@@ -44,4 +44,4 @@ oss-bot can currently:
 1. Add Webhook.
 
 # Contributing
-oss-bot-js welcomes contributors! If you have a feature to suggest or would like to contribute code/tests, please create a new issue in the issue tracker!
+oss-bot-js welcomes contributors! ~~If you have a feature to suggest or would like to contribute code/tests, please create a new issue in the issue tracker!~~ This project has been adopted by the [TEAMMATES](github.com/TEAMMATES) organization and is being further developed [here](https://github.com/TEAMMATES/teammates-ops/tree/master/github-bot).
