@@ -5,7 +5,7 @@ describe('index', () => {
     beforeEach(() => {
       process.env.REGEX_PULL_REQ_TITLE = '\\S\\s';
       process.env.REGEX_PULL_REQ_BODY = '\\S\\s';
-      process.env.ENABLE_KEYWORD_CHECKER = 'false';
+      KEYWORD_CHECKS_ENABLED = true;
       process.env.CONTRIBUTING_GUIDELINES = 'test';
     });
 

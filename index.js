@@ -65,18 +65,17 @@ function commentOnPullRequest(repo, id, comment) {
 }
 
 function getViolations(prDetails) {
+  const KEYWORD_CHECKS_ENABLED = utils.isFeatureEnabled(process.env.ENABLE_KEYWORD_CHECKER);
   const violations = {};
   if (!isValidPullRequestTitle(prDetails.title)) {
     violations.title = { main: true };
-    if (process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
-      process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true') {
+    if (KEYWORD_CHECKS_ENABLED) {
       violations.title.details = keywordChecker.getDetailedTitleViolations(prDetails.title);
     }
   }
   if (!isValidPullRequestBody(prDetails.body)) {
     violations.body = { main: true };
-    if (process.env.ENABLE_KEYWORD_CHECKER !== undefined &&
-      process.env.ENABLE_KEYWORD_CHECKER.toLowerCase() === 'true') {
+    if (KEYWORD_CHECKS_ENABLED) {
       violations.body.details = keywordChecker.getDetailedBodyViolations(prDetails.body);
     }
   }
